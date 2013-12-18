@@ -47,7 +47,7 @@ public class Form extends javax.swing.JFrame {
     public Form() {
         initComponents();
         words = new HashMap();
-        String[] exc = new String[]{"his","her","their","my","your","its","he","she","it","i","you","am","is","was","were","will","shall","may","and","or","but","then","unless","when","while"};
+        String[] exc = new String[]{"his","her","their","my","your","its","he","she","it","i","you","am","are","is","was","were","will","shall","may","and","or","but","then","unless","when","while"};
         for(int i=0;i<exc.length;i++)
         exceptionsword.add(exc[i]);
        
@@ -138,7 +138,7 @@ public class Form extends javax.swing.JFrame {
             
             rs = stmt.executeQuery(getSql());
             while (rs.next()) {
-                String wordss=rs.getString("word");
+                String wordss=rs.getString("word").replace("|", "");
                 if(!exceptionsword.contains(wordss)){
                     words.put(wordss, rs.getString("tipe").substring(0, 1));
                 }else{
