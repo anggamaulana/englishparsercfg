@@ -20,11 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.v4.runtime.ANTLRFileStream;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.TokenStream;
+import javax.swing.JOptionPane;
 import org.antlr.v4.runtime.misc.TestRig;
 
 /**
@@ -51,18 +47,20 @@ public class Form extends javax.swing.JFrame {
         for(int i=0;i<exc.length;i++)
         exceptionsword.add(exc[i]);
        
+       String path = System.getProperty("user.dir");
+        System.out.println("Openning"+path);
         try {
             Class.forName("org.sqlite.JDBC");
-
-            c = DriverManager.getConnection("jdbc:sqlite:corpus.db");
+            
+            c = DriverManager.getConnection("jdbc:sqlite:"+path+"\\corpus.db");
 
             c.setAutoCommit(false);
         } catch (SQLException ex) {
             Logger.getLogger(Form.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception e) {
         }
-
-        System.out.println("Opened database successfully");
+        JOptionPane.showMessageDialog(this, "Opened corpus.db");
+        System.out.println("Opened database successfully "+System.getProperty("user.dir"));
     }
 
     /**
@@ -154,7 +152,7 @@ public class Form extends javax.swing.JFrame {
             //System.out.println(makeExpresion());
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_btn_prosesActionPerformed
     /**
@@ -169,7 +167,7 @@ public class Form extends javax.swing.JFrame {
 
     private String getSql() {
         String[] kata = txt_kata.getText().split(" ");
-        String sql = "select * from word where word in (";
+        String sql = "select * from main.word where word in (";
         for(int i=0;i<kata.length;i++){
             sql+="'"+kata[i]+"'";
             if(i<kata.length-1)
